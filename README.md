@@ -61,6 +61,7 @@ The below devices are fully feature supported by OpenRazer which means all avail
 | Razer DeathAdder Chroma                       |  1532:0043  |
 | Razer Mamba (Wired)                           |  1532:0044  |
 | Razer Mamba (Wireless)                        |  1532:0045  |
+| Razer Mamba  2018 (Wireless)                  |  1532:0072  |
 | Razer Mamba Tournament Edition                |  1532:0046  |
 | Razer Orochi (Wired)                          |  1532:0048  |
 | Razer Diamondback Chroma                      |  1532:004C  |

@@ -12,6 +12,41 @@ from openrazer_daemon.dbus_services.dbus_methods.deathadder_chroma import get_lo
 from openrazer_daemon.dbus_services.dbus_methods.chroma_keyboard import get_brightness as _get_backlight_brightness, set_brightness as _set_backlight_brightness
 from openrazer_daemon.misc.key_event_management import NagaHexV2KeyManager as _NagaHexV2KeyManager
 
+class RazerMamba2018Wireless(__RazerDeviceBrightnessSuspend):
+    """
+    Class for the Razer Mamba 2018 (Wireless)
+    """
+    USB_VID = 0x1532
+    USB_PID = 0x0072
+    HAS_MATRIX = True
+    MATRIX_DIMS = [1, 15]
+    METHODS = ['get_device_type_mouse', 'get_battery', 'is_charging', 'set_wave_effect',
+               'set_static_effect', 'set_spectrum_effect', 'set_reactive_effect', 'set_none_effect', 'set_breath_random_effect',
+               'set_breath_single_effect', 'set_breath_dual_effect', 'set_custom_effect', 'set_key_row',
+               'set_charge_effect', 'set_charge_colour', 'set_idle_time', 'set_low_battery_threshold', 'max_dpi', 'get_dpi_xy', 'set_dpi_xy', 'get_poll_rate', 'set_poll_rate']
+
+    RAZER_URLS = {
+        "top_img": "https://d4kkpd69xt9l7.cloudfront.net/sys-master/root/h75/h36/9042157305886/razer-mamba-wireless-gaming-mouse-gallery04.jpg",
+        "side_img": "https://assets.razerzone.com/eeimages/products/22343/razer-mamba-gallery-10.png",
+        "perspective_img": "https://assets.razerzone.com/eeimages/products/22343/razer-mamba-gallery-04.png"
+    }
+
+    DPI_MAX = 16000
+
+    def __init__(self, *args, **kwargs):
+        super(RazerMamba2018Wireless, self).__init__(*args, **kwargs)
+
+        self._battery_manager = _BatteryManager(self, self._device_number, 'Razer Mamba')
+        self._battery_manager.active = self.config.getboolean('Startup', 'mouse_battery_notifier', fallback=False)
+
+    def _close(self):
+        """
+        Close the key manager
+        """
+        super(RazerMamba2018Wireless, self)._close()
+
+        self._battery_manager.close()
+
 
 class RazerMambaChromaWireless(__RazerDeviceBrightnessSuspend):
     """

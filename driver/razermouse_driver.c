@@ -128,6 +128,10 @@ static ssize_t razer_attr_read_device_type(struct device *dev, struct device_att
         device_type = "Razer Mamba (Wireless)\n";
         break;
 
+    case USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS:
+        device_type = "Razer Mamba 2018 (Wireless)\n";
+        break;
+
     case USB_DEVICE_ID_RAZER_MAMBA_TE_WIRED:
         device_type = "Razer Mamba Tournament Edition\n";
         break;
@@ -305,6 +309,7 @@ static ssize_t razer_attr_write_mode_custom(struct device *dev, struct device_at
         report.transaction_id.id = 0x3f;
         break;
 
+    case USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS:
     case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS:
         report = razer_chroma_standard_matrix_effect_custom_frame(NOSTORE);
         report.transaction_id.id = 0x80;
@@ -662,6 +667,7 @@ static ssize_t razer_attr_write_poll_rate(struct device *dev, struct device_attr
     case USB_DEVICE_ID_RAZER_DEATHADDER_ELITE:
     case USB_DEVICE_ID_RAZER_MAMBA_WIRED:
     case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS:
+    case USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS:
         report.transaction_id.id = 0x3f;
         break;
     }
@@ -685,6 +691,7 @@ static ssize_t razer_attr_write_set_brightness(struct device *dev, struct device
     struct razer_report report;
 
     switch(usb_dev->descriptor.idProduct) {
+    case USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS:
     case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS:
         report = razer_chroma_misc_set_dock_brightness(brightness);
         break;
@@ -722,6 +729,7 @@ static ssize_t razer_attr_read_set_brightness(struct device *dev, struct device_
     unsigned char brightness_index = 0x02;
 
     switch(usb_dev->descriptor.idProduct) {
+    case USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS:
     case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS:
         report = razer_chroma_misc_get_dock_brightness();
         brightness_index = 0x00;
@@ -996,6 +1004,7 @@ static ssize_t razer_attr_write_set_key_row(struct device *dev, struct device_at
             break;
 
         case USB_DEVICE_ID_RAZER_MAMBA_WIRED:
+        case USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS:
         case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS:
             report = razer_chroma_misc_one_row_set_custom_frame(start_col, stop_col, (unsigned char*)&buf[offset]);
             report.transaction_id.id = 0x80;
@@ -2069,6 +2078,7 @@ static int razer_mouse_probe(struct hid_device *hdev, const struct hid_device_id
             CREATE_DEVICE_FILE(&hdev->dev, &dev_attr_scroll_led_effect);
             break;
 
+        case USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS:
         case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS:
             CREATE_DEVICE_FILE(&hdev->dev, &dev_attr_charge_effect);
             CREATE_DEVICE_FILE(&hdev->dev, &dev_attr_charge_colour);
@@ -2312,6 +2322,7 @@ static void razer_mouse_disconnect(struct hid_device *hdev)
             device_remove_file(&hdev->dev, &dev_attr_scroll_led_effect);
             break;
 
+        case USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS:
         case USB_DEVICE_ID_RAZER_MAMBA_WIRELESS:
             device_remove_file(&hdev->dev, &dev_attr_charge_effect);
             device_remove_file(&hdev->dev, &dev_attr_charge_colour);
@@ -2470,6 +2481,7 @@ static const struct hid_device_id razer_devices[] = {
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_MAMBA_2012_WIRELESS) },
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_MAMBA_WIRED) },
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_MAMBA_WIRELESS) },
+    { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_MAMBA_2018_WIRELESS) },
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_MAMBA_TE_WIRED) },
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_ABYSSUS) },
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_TAIPAN) },
